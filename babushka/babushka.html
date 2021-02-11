@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="da">
 
+
+
+
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Persongalleri</title>
-    <link rel="stylesheet" href="">
+    <title>Bistro Babushka</title>
     <style>
         img {
             width: 100%;
@@ -20,17 +23,46 @@
         }
 
         article {
-            border: 1px solid black;
+            /*border: 1px solid black;*/
+            background-color: antiquewhite;
+            padding: 20px;
         }
 
         p {
             text-align: center;
+            font-family: bely, serif;
+            font-weight: 400;
+            font-style: italic;
+            font-size: 20px;
+            font-style: normal;
+            margin-bottom: 0;
+            line-height: 1.6;
         }
 
         h2 {
+            font-family: bely, serif;
+            font-weight: 700;
+            font-style: normal;
+            font-size: 30px;
+            margin-bottom: 0;
+            line-height: 1.6;
             text-align: center;
         }
 
+        h1 {
+            /*font-family: 'Helvetica Neue', sans-serif;
+            font-size: 70px;
+            font-weight: 300;*/
+            font-family: bely, serif;
+            font-weight: 700;
+            font-style: normal;
+            font-size: 70px;
+            line-height: 1.6;
+            text-align: center;
+            color: red;
+        }
+        /*nav med første splash*/
+        /*
         nav {
             float: none;
             position: absolute;
@@ -38,29 +70,72 @@
             left: 50%;
             transform: translate(-50%, -50%);
             padding: 10px;
+            margin-top: 29vw;
+        }
+*/
+        /*nav med pyramide*/
+
+        nav {
+            float: none;
+            position: absolute;
+            top: 36%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin-top: 30vw;
         }
 
         .valgt {
             background-color: red;
         }
 
+        button {
+            background-color: #2A0DFC;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            display: inline-block;
+            font-size: 20px;
+            font-family: bely, serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @media screen and (max-width: 600px) {
+            button {
+                margin-top: 1vw;
+                margin-right: 68vw;
+                font-size: 12px;
+                padding: 5px 10px;
+            }
+            nav {
+                margin-top: 0vw;
+            }
+        }
+
     </style>
 </head>
 
+
+
+
+
 <body>
+    <!--<img src="billeder/splash1-01.svg" alt="splash">-->
+    <img src="billeder/pyramide-03.svg" alt="splash">
     <header>
-        <h1>Alle</h1>
+        <h1>MENU</h1>
         <nav>
             <button data-retter="alle" class="valgt">Alle</button>
             <button data-retter="forretter">Forretter</button>
             <button data-retter="hovedretter">Hovedretter</button>
-            <button data-retter="sideorders">Side Orders</button>
+            <button data-retter="sideorders">Sideorders</button>
             <button data-retter="desserter">Desserter</button>
             <button data-retter="drikkevarer">Drikkevarer</button>
         </nav>
     </header>
     <template>
-        <article>
+        <article class="indhold">
 
             <h2></h2>
             <img class="billede">
@@ -93,9 +168,16 @@
         };
         const header = document.querySelector("header h1");
 
+
+
+
         document.addEventListener("DOMContentLoaded", start)
         let retter;
         let filter = "alle";
+
+
+
+
 
         function start() {
             console.log("start");
@@ -104,16 +186,26 @@
             hentData();
         }
 
+
+
         function filtrerRetter() {
+            console.log("flitrer retter");
             filter = this.dataset.retter;
             document.querySelector(".valgt").classList.remove("valgt");
             this.classList.add("valgt")
             vis();
             header.textContent = this.textContent;
 
+
+
         }
 
+
+
+
+
         async function hentData() {
+            console.log("hent data")
             const resspons = await fetch(url, options);
             retter = await resspons.json();
             //personer = await JSONData.json();
@@ -121,9 +213,20 @@
             //console.log("json: ", json);
 
 
+
+
+
             vis();
 
+
+
+
+
         }
+
+
+
+
 
         function vis() {
             console.log("vis");
@@ -138,13 +241,23 @@
                     klon.querySelector(".kategori").textContent = ret.kategori;
                     klon.querySelector(".kortBeskrivelse").textContent = ret.kortBeskrivelse;
                     klon.querySelector(".langBeskrivelse").textContent = ret.langBeskrivelse;
-                    klon.querySelector(".pris").textContent = ret.pris;
+                    klon.querySelector(".pris").textContent = ret.pris + " DKK";
                     klon.querySelector(".oprindelsesRegion").textContent = ret.oprindelsesRegion;
-
+                    klon.querySelector(".indhold").addEventListener("click", () => visIndhold(ret));
                     sektion.appendChild(klon);
                 }
 
+
+
+
+
             })
+        }
+
+        function visIndhold(hvad) {
+            console.log("kan sende videre til detalje side")
+
+            location.href = `detaljer.html?id=${hvad._id}`;
         }
 
     </script>
